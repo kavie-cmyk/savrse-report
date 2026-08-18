@@ -44,6 +44,8 @@ window.P24_11 = {FULL_REPORT_URL,FULL_ARCHIVE_URL,phase:'P24-11',version:'v1.0'}
 
 // Approved benchmark imagery may be blocked by restrictive corporate/browser networks.
 // Preserve the source card and disclosure instead of showing a broken image.
+// Fallback is applied ONLY on a real load error — not on a timer, so lazy-loaded
+// images that simply haven't scrolled into view are never hidden prematurely.
 document.querySelectorAll('.benchmark-media img').forEach(img=>{
   const fallback=()=>{
     if(img.naturalWidth>0) return;
@@ -52,5 +54,4 @@ document.querySelectorAll('.benchmark-media img').forEach(img=>{
     img.style.display='none';
   };
   img.addEventListener('error', fallback, {once:true});
-  window.setTimeout(fallback, 4000);
 });
